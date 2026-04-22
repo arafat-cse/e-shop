@@ -3,6 +3,7 @@ import { Manrope, Space_Grotesk } from "next/font/google";
 
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
+import { AuthProvider } from "@/components/providers/auth-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { AppToaster } from "@/components/ui/toaster";
 import { APP_DESCRIPTION, APP_NAME } from "@/lib/constants";
@@ -48,12 +49,14 @@ export default function RootLayout({
         className={`${bodyFont.variable} ${headingFont.variable} font-[family-name:var(--font-body)]`}
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <div className="relative flex min-h-screen flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-          <AppToaster />
+          <AuthProvider>
+            <div className="relative flex min-h-screen flex-col">
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+            <AppToaster />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

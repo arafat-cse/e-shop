@@ -5,6 +5,8 @@
 - Frontend: `Next.js 15`
 - Backend: `Strapi 5`
 - Database: `MySQL`
+- Auth: `Strapi Users & Permissions`
+- Orders: `MySQL + Strapi-managed order model`
 
 ## Project URLs
 
@@ -119,11 +121,18 @@ It uses Strapi as the CMS/admin panel.
 Current product content type:
 
 - `Product`
+- `Order`
 
 Product data is stored in MySQL table:
 
 ```text
 products
+```
+
+Order data is stored in:
+
+```text
+orders
 ```
 
 Strapi seeds initial demo products automatically from:
@@ -133,6 +142,7 @@ Strapi seeds initial demo products automatically from:
 Product schema is defined in:
 
 - `server/src/api/product/content-types/product/schema.json`
+- `server/src/api/order/content-types/order/schema.json`
 
 ### Frontend
 
@@ -148,8 +158,19 @@ Frontend product data layer:
 
 - `lib/api/products.ts`
 - `lib/db.ts`
+- `lib/orders.ts`
+- `lib/auth.ts`
 
 The frontend reads product data from the same MySQL database used by Strapi, so when product data changes in backend/admin, frontend can show updated content.
+
+Auth and order API routes:
+
+- `app/api/auth/login/route.ts`
+- `app/api/auth/register/route.ts`
+- `app/api/auth/me/route.ts`
+- `app/api/auth/logout/route.ts`
+- `app/api/orders/route.ts`
+- `app/api/orders/[trackingToken]/route.ts`
 
 ## Data Flow
 
@@ -157,8 +178,13 @@ Current flow:
 
 1. Strapi manages product data in MySQL
 2. Product records are stored in `e-shop.products`
-3. Next.js reads those product rows
-4. Homepage, shop page, and product details page render dynamic product data
+3. Users can register and login from frontend
+4. Guest users must login before adding products to cart
+5. Next.js reads product rows and renders dynamic pages
+6. Checkout creates a database order and reduces stock
+7. Every order gets a public tracking link
+8. Logged-in user can view order history from `/account/orders`
+9. Anyone with tracking link can view delivery status from `/track/[token]`
 
 ## Admin Use
 
@@ -173,6 +199,9 @@ From there you can:
 - manage products
 - update product details
 - change title, description, price, category, image
+- update stock quantity
+- set compare/discount price
+- manage order status from backend data model
 
 After backend data changes, frontend pages will use that database content.
 
@@ -184,6 +213,9 @@ After backend data changes, frontend pages will use that database content.
 - `server/.env.example` backend env example
 - `.env.local.example` frontend DB env example
 - `database setup.md` database notes
+- `store/use-auth-store.ts` auth state
+- `store/use-cart-store.ts` cart state
+- `components/orders/*` order tracking UI
 
 ## Notes
 
@@ -191,6 +223,8 @@ After backend data changes, frontend pages will use that database content.
 - Frontend default URL is `http://localhost:3000`
 - Backend admin URL is `http://localhost:1337/admin`
 - MySQL database name is `e-shop`
+- If port `3000` is busy, Next.js uses the next free port automatically
+- Order tracking page works with or without login if tracking link is known
 
 ## Current Stack
 

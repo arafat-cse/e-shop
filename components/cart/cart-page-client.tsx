@@ -8,10 +8,12 @@ import { Separator } from "@/components/ui/separator";
 import { useMounted } from "@/hooks/use-mounted";
 import { formatCurrency } from "@/lib/format";
 import { SHIPPING_FEE } from "@/lib/constants";
+import { useAuthStore } from "@/store/use-auth-store";
 import { useCartStore } from "@/store/use-cart-store";
 
 export function CartPageClient() {
   const mounted = useMounted();
+  const user = useAuthStore((state) => state.user);
   const items = useCartStore((state) => state.items);
   const subtotal = useCartStore((state) => state.subtotal());
 
@@ -30,6 +32,22 @@ export function CartPageClient() {
         </p>
         <Link href="/shop" className="mt-6 inline-block">
           <Button>Continue shopping</Button>
+        </Link>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="rounded-[2rem] border border-dashed border-border p-10 text-center">
+        <h2 className="font-[family-name:var(--font-heading)] text-2xl font-bold">
+          Login required
+        </h2>
+        <p className="mt-3 text-muted-foreground">
+          Create an account or login before you continue with cart and checkout.
+        </p>
+        <Link href="/login?redirect=%2Fcart" className="mt-6 inline-block">
+          <Button>Login to continue</Button>
         </Link>
       </div>
     );

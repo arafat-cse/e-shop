@@ -16,7 +16,9 @@ export const mockProducts: Product[] = [
       "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=900&q=80"
     ],
     rating: { rate: 4.8, count: 342 },
-    featured: true
+    featured: true,
+    compareAtPrice: 179.99,
+    stockQuantity: 18
   },
   {
     id: 102,
@@ -32,7 +34,9 @@ export const mockProducts: Product[] = [
       "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=80"
     ],
     rating: { rate: 4.6, count: 188 },
-    featured: true
+    featured: true,
+    compareAtPrice: 149.5,
+    stockQuantity: 24
   },
   {
     id: 103,
@@ -48,7 +52,9 @@ export const mockProducts: Product[] = [
       "https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=900&q=80"
     ],
     rating: { rate: 4.7, count: 271 },
-    featured: true
+    featured: true,
+    compareAtPrice: 45,
+    stockQuantity: 36
   },
   {
     id: 104,
@@ -64,7 +70,9 @@ export const mockProducts: Product[] = [
       "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80"
     ],
     rating: { rate: 4.5, count: 94 },
-    featured: false
+    featured: false,
+    compareAtPrice: 99,
+    stockQuantity: 12
   },
   {
     id: 105,
@@ -80,7 +88,9 @@ export const mockProducts: Product[] = [
       "https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?auto=format&fit=crop&w=900&q=80"
     ],
     rating: { rate: 4.9, count: 521 },
-    featured: true
+    featured: true,
+    compareAtPrice: 229.99,
+    stockQuantity: 15
   },
   {
     id: 106,
@@ -96,7 +106,9 @@ export const mockProducts: Product[] = [
       "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=900&q=80"
     ],
     rating: { rate: 4.4, count: 116 },
-    featured: false
+    featured: false,
+    compareAtPrice: 159.75,
+    stockQuantity: 9
   },
   {
     id: 107,
@@ -112,7 +124,9 @@ export const mockProducts: Product[] = [
       "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80"
     ],
     rating: { rate: 4.3, count: 76 },
-    featured: false
+    featured: false,
+    compareAtPrice: 99.2,
+    stockQuantity: 11
   },
   {
     id: 108,
@@ -128,6 +142,8 @@ export const mockProducts: Product[] = [
       "https://images.unsplash.com/photo-1613141412501-9012977f1969?auto=format&fit=crop&w=900&q=80"
     ],
     rating: { rate: 4.6, count: 203 },
-    featured: false
+    featured: false,
+    compareAtPrice: 69,
+    stockQuantity: 20
   }
 ];

@@ -20,6 +20,7 @@ type ProductRow = RowDataPacket & {
   id: number;
   title: string;
   price: number | string;
+  compare_at_price: number | string | null;
   description: string;
   category: string;
   image: string;
@@ -27,6 +28,7 @@ type ProductRow = RowDataPacket & {
   rating_rate: number | string;
   rating_count: number;
   featured: number | boolean | null;
+  stock_quantity: number | null;
 };
 
 function normalizeGallery(value: ProductRow["gallery"], fallbackImage: string) {
@@ -54,6 +56,8 @@ function mapRowToProduct(row: ProductRow): Product {
     id: row.id,
     title: row.title,
     price: Number(row.price),
+    compareAtPrice:
+      row.compare_at_price === null ? null : Number(row.compare_at_price),
     description: row.description,
     category: row.category,
     image: row.image,
@@ -62,14 +66,15 @@ function mapRowToProduct(row: ProductRow): Product {
       rate: Number(row.rating_rate),
       count: Number(row.rating_count)
     },
-    featured: Boolean(row.featured)
+    featured: Boolean(row.featured),
+    stockQuantity: Number(row.stock_quantity ?? 0)
   });
 }
 
 export async function getProducts(): Promise<Product[]> {
   try {
     const [rows] = await getDbPool().query<ProductRow[]>(
-      `SELECT id, title, price, description, category, image, gallery, rating_rate, rating_count, featured
+      `SELECT id, title, price, compare_at_price, description, category, image, gallery, rating_rate, rating_count, featured, stock_quantity
        FROM products
        ORDER BY id ASC`
     );
@@ -83,7 +88,7 @@ export async function getProducts(): Promise<Product[]> {
 export async function getProductById(id: number): Promise<Product | null> {
   try {
     const [rows] = await getDbPool().query<ProductRow[]>(
-      `SELECT id, title, price, description, category, image, gallery, rating_rate, rating_count, featured
+      `SELECT id, title, price, compare_at_price, description, category, image, gallery, rating_rate, rating_count, featured, stock_quantity
        FROM products
        WHERE id = ?
        LIMIT 1`,

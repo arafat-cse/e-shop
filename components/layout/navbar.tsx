@@ -1,10 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, Search, ShoppingCart, Store, UserRound, X } from "lucide-react";
+import {
+  Menu,
+  PackageSearch,
+  Search,
+  ShoppingCart,
+  Store,
+  UserRound,
+  X
+} from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { useMounted } from "@/hooks/use-mounted";
+import { useAuthStore } from "@/store/use-auth-store";
 import { useCartStore } from "@/store/use-cart-store";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -15,13 +25,25 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop" },
   { href: "/cart", label: "Cart" },
-  { href: "/checkout", label: "Checkout" }
+  { href: "/checkout", label: "Checkout" },
+  { href: "/account/orders", label: "My Orders" }
 ];
 
 export function Navbar() {
   const mounted = useMounted();
   const count = useCartStore((state) => state.itemCount());
+  const clearCart = useCartStore((state) => state.clearCart);
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
   const [isOpen, setIsOpen] = useState(false);
+  const [trackingToken, setTrackingToken] = useState("");
+
+  async function handleLogout() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    logout();
+    clearCart();
+    toast.success("Logged out");
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-xl">
@@ -41,16 +63,30 @@ export function Navbar() {
             </div>
           </Link>
 
-          <form action="/shop" className="hidden max-w-xl flex-1 md:block">
-            <div className="relative">
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                name="q"
-                placeholder="Search products, brands, and categories"
-                className="rounded-full pl-11"
-              />
-            </div>
-          </form>
+          <div className="hidden max-w-xl flex-1 gap-3 md:flex">
+            <form action="/shop" className="flex-1">
+              <div className="relative">
+                <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  name="q"
+                  placeholder="Search products, brands, and categories"
+                  className="rounded-full pl-11"
+                />
+              </div>
+            </form>
+            <form action="/track" className="hidden w-[240px] xl:block">
+              <div className="relative">
+                <PackageSearch className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  name="token"
+                  value={trackingToken}
+                  onChange={(event) => setTrackingToken(event.target.value)}
+                  placeholder="Track order"
+                  className="rounded-full pl-11"
+                />
+              </div>
+            </form>
+          </div>
 
           <nav className="hidden items-center gap-2 lg:flex">
             {navLinks.map((link) => (
@@ -66,12 +102,31 @@ export function Navbar() {
 
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <Link href="/login" className="hidden md:block">
-              <Button variant="outline" size="sm">
-                <UserRound className="h-4 w-4" />
-                Account
-              </Button>
-            </Link>
+            {mounted && user ? (
+              <>
+                <Link href="/account/orders" className="hidden md:block">
+                  <Button variant="outline" size="sm">
+                    <UserRound className="h-4 w-4" />
+                    {user.fullName.split(" ")[0]}
+                  </Button>
+                </Link>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="hidden md:inline-flex"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Link href="/login" className="hidden md:block">
+                <Button variant="outline" size="sm">
+                  <UserRound className="h-4 w-4" />
+                  Account
+                </Button>
+              </Link>
+            )}
             <Link href="/cart" className="relative">
               <Button size="icon" aria-label="Shopping cart">
                 <ShoppingCart className="h-4 w-4" />
@@ -103,6 +158,18 @@ export function Navbar() {
               />
             </div>
           </form>
+          <form action="/track" className="mb-4">
+            <div className="relative">
+              <PackageSearch className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                name="token"
+                value={trackingToken}
+                onChange={(event) => setTrackingToken(event.target.value)}
+                placeholder="Track order"
+                className="rounded-full pl-11"
+              />
+            </div>
+          </form>
           <div className="grid gap-2">
             {navLinks.map((link) => (
               <Link
@@ -114,20 +181,35 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/login"
-              onClick={() => setIsOpen(false)}
-              className="rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium"
-            >
-              Login
-            </Link>
-            <Link
-              href="/register"
-              onClick={() => setIsOpen(false)}
-              className="rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium"
-            >
-              Register
-            </Link>
+            {mounted && user ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setIsOpen(false);
+                  void handleLogout();
+                }}
+                className="rounded-2xl border border-border/70 px-4 py-3 text-left text-sm font-medium"
+              >
+                Logout
+              </button>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  onClick={() => setIsOpen(false)}
+                  className="rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/register"
+                  onClick={() => setIsOpen(false)}
+                  className="rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium"
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

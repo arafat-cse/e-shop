@@ -84,6 +84,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <p className="text-3xl font-bold text-primary">
             {formatCurrency(product.price)}
           </p>
+          {product.compareAtPrice && product.compareAtPrice > product.price && (
+            <p className="text-sm text-muted-foreground line-through">
+              Regular price {formatCurrency(product.compareAtPrice)}
+            </p>
+          )}
+          <p className="text-sm text-muted-foreground">
+            {product.stockQuantity > 0
+              ? `${product.stockQuantity} unit(s) available`
+              : "Currently out of stock"}
+          </p>
 
           <p className="leading-7 text-muted-foreground">{product.description}</p>
 

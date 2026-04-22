@@ -430,6 +430,100 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
+  collectionName: 'orders';
+  info: {
+    description: 'Customer orders and tracking data';
+    displayName: 'Order';
+    pluralName: 'orders';
+    singularName: 'order';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    adminNote: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    customerEmail: Schema.Attribute.Email & Schema.Attribute.Required;
+    customerName: Schema.Attribute.String & Schema.Attribute.Required;
+    customerPhone: Schema.Attribute.String & Schema.Attribute.Required;
+    customerUserId: Schema.Attribute.Integer & Schema.Attribute.Required;
+    discountAmount: Schema.Attribute.Decimal &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0>;
+    itemsSnapshot: Schema.Attribute.JSON & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::order.order'> &
+      Schema.Attribute.Private;
+    notes: Schema.Attribute.Text;
+    paymentMethod: Schema.Attribute.Enumeration<['cod', 'bkash', 'nagad']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'cod'>;
+    paymentStatus: Schema.Attribute.Enumeration<['pending', 'paid', 'failed']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'pending'>;
+    publishedAt: Schema.Attribute.DateTime;
+    shippingAddress: Schema.Attribute.Text & Schema.Attribute.Required;
+    shippingArea: Schema.Attribute.String & Schema.Attribute.Required;
+    shippingFee: Schema.Attribute.Decimal &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    shippingZone: Schema.Attribute.String & Schema.Attribute.Required;
+    status: Schema.Attribute.Enumeration<
+      [
+        'placed',
+        'confirmed',
+        'packed',
+        'hub',
+        'courier_assigned',
+        'out_for_delivery',
+        'delivered',
+        'cancelled',
+      ]
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'placed'>;
+    statusTimeline: Schema.Attribute.JSON & Schema.Attribute.Required;
+    subtotal: Schema.Attribute.Decimal &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    total: Schema.Attribute.Decimal &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    trackingNumber: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    trackingToken: Schema.Attribute.UID<'trackingNumber'> &
+      Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   collectionName: 'products';
   info: {
@@ -443,6 +537,13 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   };
   attributes: {
     category: Schema.Attribute.String & Schema.Attribute.Required;
+    compareAtPrice: Schema.Attribute.Decimal &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -472,6 +573,15 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       Schema.Attribute.DefaultTo<0>;
     ratingRate: Schema.Attribute.Decimal &
       Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<0>;
+    stockQuantity: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
       Schema.Attribute.DefaultTo<0>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
@@ -991,6 +1101,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::order.order': ApiOrderOrder;
       'api::product.product': ApiProductProduct;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

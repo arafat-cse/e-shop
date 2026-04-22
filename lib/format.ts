@@ -1,7 +1,7 @@
 export function formatCurrency(value: number) {
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("bn-BD", {
     style: "currency",
-    currency: "USD",
+    currency: "BDT",
     maximumFractionDigits: 2
   }).format(value);
 }

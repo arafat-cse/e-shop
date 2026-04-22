@@ -1,0 +1,115 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "singularName": "order",
+    "pluralName": "orders",
+    "displayName": "Order",
+    "description": "Customer orders and tracking data"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "trackingToken": {
+      "type": "uid",
+      "targetField": "trackingNumber",
+      "required": true
+    },
+    "trackingNumber": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "customerUserId": {
+      "type": "integer",
+      "required": true
+    },
+    "customerName": {
+      "type": "string",
+      "required": true
+    },
+    "customerEmail": {
+      "type": "email",
+      "required": true
+    },
+    "customerPhone": {
+      "type": "string",
+      "required": true
+    },
+    "shippingAddress": {
+      "type": "text",
+      "required": true
+    },
+    "shippingArea": {
+      "type": "string",
+      "required": true
+    },
+    "shippingZone": {
+      "type": "string",
+      "required": true
+    },
+    "notes": {
+      "type": "text"
+    },
+    "paymentMethod": {
+      "type": "enumeration",
+      "enum": ["cod", "bkash", "nagad"],
+      "default": "cod",
+      "required": true
+    },
+    "paymentStatus": {
+      "type": "enumeration",
+      "enum": ["pending", "paid", "failed"],
+      "default": "pending",
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "placed",
+        "confirmed",
+        "packed",
+        "hub",
+        "courier_assigned",
+        "out_for_delivery",
+        "delivered",
+        "cancelled"
+      ],
+      "default": "placed",
+      "required": true
+    },
+    "subtotal": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "shippingFee": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "discountAmount": {
+      "type": "decimal",
+      "required": true,
+      "default": 0,
+      "min": 0
+    },
+    "total": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "itemsSnapshot": {
+      "type": "json",
+      "required": true
+    },
+    "statusTimeline": {
+      "type": "json",
+      "required": true
+    },
+    "adminNote": {
+      "type": "text"
+    }
+  }
+}

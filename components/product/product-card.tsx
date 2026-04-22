@@ -51,9 +51,18 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="text-2xl font-bold">{formatCurrency(product.price)}</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="text-2xl font-bold">{formatCurrency(product.price)}</p>
+              {product.compareAtPrice && product.compareAtPrice > product.price && (
+                <p className="text-sm text-muted-foreground line-through">
+                  {formatCurrency(product.compareAtPrice)}
+                </p>
+              )}
+            </div>
             <p className="text-xs text-muted-foreground">
-              {product.rating.count} reviews
+              {product.stockQuantity > 0
+                ? `${product.stockQuantity} in stock`
+                : "Out of stock"}
             </p>
           </div>
           <AddToCartButton product={product} />

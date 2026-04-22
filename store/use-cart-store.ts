@@ -27,7 +27,10 @@ export const useCartStore = create<CartState>()(
             return {
               items: state.items.map((item) =>
                 item.id === product.id
-                  ? { ...item, quantity: item.quantity + 1 }
+                  ? {
+                      ...item,
+                      quantity: Math.min(item.quantity + 1, item.stockQuantity)
+                    }
                   : item
               )
             };
@@ -40,9 +43,11 @@ export const useCartStore = create<CartState>()(
                 id: product.id,
                 title: product.title,
                 price: product.price,
+                compareAtPrice: product.compareAtPrice ?? null,
                 image: product.image,
                 category: product.category,
-                quantity: 1
+                quantity: 1,
+                stockQuantity: product.stockQuantity
               }
             ]
           };
@@ -57,7 +62,9 @@ export const useCartStore = create<CartState>()(
             quantity <= 0
               ? state.items.filter((item) => item.id !== id)
               : state.items.map((item) =>
-                  item.id === id ? { ...item, quantity } : item
+                  item.id === id
+                    ? { ...item, quantity: Math.min(quantity, item.stockQuantity) }
+                    : item
                 )
         })),
       clearCart: () => set({ items: [] }),

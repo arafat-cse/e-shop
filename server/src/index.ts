@@ -17,6 +17,8 @@ const seedProducts = [
     ratingRate: 4.8,
     ratingCount: 342,
     featured: true,
+    compareAtPrice: 179.99,
+    stockQuantity: 18,
   },
   {
     title: "Summit Performance Jacket",
@@ -33,6 +35,8 @@ const seedProducts = [
     ratingRate: 4.6,
     ratingCount: 188,
     featured: true,
+    compareAtPrice: 149.5,
+    stockQuantity: 24,
   },
   {
     title: "Halo Skin Serum",
@@ -49,6 +53,8 @@ const seedProducts = [
     ratingRate: 4.7,
     ratingCount: 271,
     featured: true,
+    compareAtPrice: 45,
+    stockQuantity: 36,
   },
   {
     title: "Luna Ceramic Lamp",
@@ -65,6 +71,8 @@ const seedProducts = [
     ratingRate: 4.5,
     ratingCount: 94,
     featured: false,
+    compareAtPrice: 99,
+    stockQuantity: 12,
   },
   {
     title: "Strata Smartwatch",
@@ -81,6 +89,8 @@ const seedProducts = [
     ratingRate: 4.9,
     ratingCount: 521,
     featured: true,
+    compareAtPrice: 229.99,
+    stockQuantity: 15,
   },
   {
     title: "Vale Leather Tote",
@@ -97,6 +107,8 @@ const seedProducts = [
     ratingRate: 4.4,
     ratingCount: 116,
     featured: false,
+    compareAtPrice: 159.75,
+    stockQuantity: 9,
   },
   {
     title: "Crest Coffee Maker",
@@ -113,6 +125,8 @@ const seedProducts = [
     ratingRate: 4.3,
     ratingCount: 76,
     featured: false,
+    compareAtPrice: 99.2,
+    stockQuantity: 11,
   },
   {
     title: "Orbit Gaming Mouse",
@@ -129,6 +143,8 @@ const seedProducts = [
     ratingRate: 4.6,
     ratingCount: 203,
     featured: false,
+    compareAtPrice: 69,
+    stockQuantity: 20,
   }
 ];
 
@@ -151,12 +167,26 @@ export default {
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
     const existingProducts = await strapi.db.query("api::product.product").count();
 
-    if (existingProducts > 0) {
+    if (existingProducts === 0) {
+      for (const product of seedProducts) {
+        await strapi.db.query("api::product.product").create({ data: product });
+      }
       return;
     }
 
-    for (const product of seedProducts) {
-      await strapi.db.query("api::product.product").create({ data: product });
+    const products = await strapi.db.query("api::product.product").findMany();
+
+    for (const product of products) {
+      const seed = seedProducts.find((item) => item.title === product.title);
+
+      await strapi.db.query("api::product.product").update({
+        where: { id: product.id },
+        data: {
+          compareAtPrice:
+            product.compareAtPrice ?? seed?.compareAtPrice ?? Number(product.price),
+          stockQuantity: product.stockQuantity ?? seed?.stockQuantity ?? 10
+        }
+      });
     }
   },
 };

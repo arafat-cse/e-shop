@@ -20,6 +20,11 @@
       "required": true,
       "min": 0
     },
+    "compareAtPrice": {
+      "type": "decimal",
+      "required": false,
+      "min": 0
+    },
     "description": {
       "type": "text",
       "required": true
@@ -50,6 +55,12 @@
       "type": "boolean",
       "required": true,
       "default": false
+    },
+    "stockQuantity": {
+      "type": "integer",
+      "required": true,
+      "default": 0,
+      "min": 0
     }
   }
 }
