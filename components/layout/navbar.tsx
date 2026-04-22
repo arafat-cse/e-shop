@@ -61,15 +61,15 @@ export function Navbar() {
       <div className="container">
         <div
           className={cn(
-            "grid items-center gap-4 border-b border-border transition-all duration-300 md:grid-cols-[220px_minmax(280px,1fr)_360px]",
+            "flex items-center justify-between transition-all duration-300 md:grid md:grid-cols-[220px_minmax(280px,1fr)_360px] md:gap-4",
             isCompact ? "h-16" : "h-20"
           )}
         >
           <Link href="/" className="inline-flex items-end gap-0.5">
-            <span className="font-[family-name:var(--font-heading)] text-[34px] font-bold tracking-[-0.06em] text-black md:text-[58px] md:leading-none">
+            <span className="font-[family-name:var(--font-heading)] text-[32px] font-bold tracking-[-0.06em] text-black md:text-[58px] md:leading-none">
               JERSEY
             </span>
-            <span className="mb-1 inline-flex h-6 items-center justify-center rounded-sm bg-primary px-1 text-[9px] font-bold uppercase leading-none text-white md:h-9 md:text-[10px]">
+            <span className="mb-1 inline-flex h-5 items-center justify-center rounded-sm bg-primary px-1 text-[8px] font-bold uppercase leading-none text-white md:h-9 md:text-[10px]">
               .bd
             </span>
           </Link>
@@ -121,7 +121,7 @@ export function Navbar() {
             </button>
           </div>
 
-          <div className="flex items-center justify-between md:hidden">
+          <div className="flex items-center gap-2 md:hidden">
             <button
               type="button"
               onClick={() => setIsOpen((value) => !value)}
@@ -130,12 +130,6 @@ export function Navbar() {
             >
               {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
-            <Link href="/cart" className="relative">
-              <ShoppingCart className="h-6 w-6" />
-              <span className="absolute -right-2 -top-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
-                {mounted ? count : 0}
-              </span>
-            </Link>
           </div>
         </div>
 

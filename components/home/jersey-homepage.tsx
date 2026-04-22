@@ -233,11 +233,11 @@ export function JerseyHomepage({ products }: { products: Product[] }) {
 
       <section className="container pt-10">
         <SectionHeader title="Our Brands" href="/shop" label="See All" />
-        <div className="grid gap-4 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-4">
           {visibleBrands.map((brand, index) => (
             <div
               key={`${brand}-${index}`}
-              className="flex h-20 items-center justify-center rounded-md border border-border bg-white px-8"
+              className="flex h-20 items-center justify-center rounded-md border border-border bg-white px-4 md:px-8"
             >
               <Image
                 src={brand}
@@ -260,7 +260,7 @@ export function JerseyHomepage({ products }: { products: Product[] }) {
         <SectionHeader title="Premium Jersey" href="/shop" label="View All Items" />
         <ProductGrid
           products={premiumProducts}
-          className="grid gap-5 md:grid-cols-2 xl:grid-cols-5"
+          className="grid grid-cols-2 gap-3 md:grid-cols-2 lg:gap-5 xl:grid-cols-5"
         />
       </section>
 
@@ -268,7 +268,7 @@ export function JerseyHomepage({ products }: { products: Product[] }) {
         <SectionHeader title="Standard Jersey" href="/shop" label="View All Items" />
         <ProductGrid
           products={standardProducts}
-          className="grid gap-5 md:grid-cols-2 xl:grid-cols-5"
+          className="grid grid-cols-2 gap-3 md:grid-cols-2 lg:gap-5 xl:grid-cols-5"
         />
       </section>
 
@@ -277,7 +277,7 @@ export function JerseyHomepage({ products }: { products: Product[] }) {
           <SectionHeader title="Combo" href="/shop?category=Combo" label="View All Items" />
           <ProductGrid
             products={comboProducts}
-            className="grid gap-5 md:grid-cols-2 xl:grid-cols-5"
+            className="grid grid-cols-2 gap-3 md:grid-cols-2 lg:gap-5 xl:grid-cols-5"
           />
         </section>
       ) : null}

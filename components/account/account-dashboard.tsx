@@ -38,7 +38,7 @@ export type AccountSection =
 
 const sideLinks = [
   { key: "dashboard", label: "Dashboard", icon: LayoutGrid, href: "/account" },
-  { key: "orders", label: "My orders", icon: ShoppingBag, href: "/my/orders" },
+  { key: "orders", label: "My orders", icon: ShoppingBag, href: "/account/orders" },
   { key: "wishlists", label: "Wishlist's", icon: Heart, href: "/my/wishlists" },
   { key: "coupons", label: "Promo/ Coupon", icon: BadgePercent, href: "/promo/coupons" },
   { key: "address", label: "Address", icon: MapPin, href: "/user/address" },
@@ -72,6 +72,56 @@ function StatCard({
         <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/75 text-[#1f2937] shadow">
           <Icon className="h-7 w-7" />
         </div>
+      </div>
+    </div>
+  );
+}
+
+function OrderItem({ order }: { order: Order }) {
+  const date = new Date(order.createdAt).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+
+  const statusColors: Record<string, string> = {
+    placed: "bg-blue-100 text-blue-700",
+    confirmed: "bg-indigo-100 text-indigo-700",
+    packed: "bg-amber-100 text-amber-700",
+    delivered: "bg-emerald-100 text-emerald-700",
+    cancelled: "bg-rose-100 text-rose-700"
+  };
+
+  return (
+    <div className="flex flex-col gap-4 border-b border-border p-4 last:border-0 md:flex-row md:items-center md:justify-between">
+      <div className="flex gap-4">
+        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg bg-secondary">
+          <Package className="h-8 w-8 text-muted-foreground" />
+        </div>
+        <div className="space-y-1">
+          <p className="text-[16px] font-bold text-[#111827]">Order #{order.trackingNumber}</p>
+          <p className="text-[14px] text-muted-foreground">{date}</p>
+          <div className="flex flex-wrap gap-2 pt-1">
+            <span className={`rounded-full px-3 py-0.5 text-[12px] font-semibold capitalize ${statusColors[order.status] || "bg-gray-100 text-gray-700"}`}>
+              {order.status}
+            </span>
+            <span className="rounded-full bg-secondary px-3 py-0.5 text-[12px] font-semibold text-muted-foreground">
+              {order.paymentMethod.toUpperCase()}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center justify-between gap-6 md:justify-end">
+        <div className="text-right">
+          <p className="text-[18px] font-bold text-[#111827]">{formatCurrency(order.total)}</p>
+          <p className="text-[13px] text-muted-foreground">{order.itemsSnapshot.length} item(s)</p>
+        </div>
+        <Link
+          href={`/track?token=${order.trackingToken}`}
+          className="rounded-lg bg-[#333130] px-4 py-2 text-[14px] font-semibold text-white transition hover:bg-black"
+        >
+          Track Order
+        </Link>
       </div>
     </div>
   );
@@ -239,12 +289,24 @@ export function AccountDashboard({
         <section className="overflow-hidden rounded-[10px] bg-white shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
           <div className="flex items-center justify-between bg-[#333130] px-4 py-3 text-white">
             <h3 className="text-[18px] font-bold">Recent orders</h3>
-            <Link href="/my/orders" className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-[#333130]">
+            <Link href="/account/orders" className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-[#333130]">
               All orders
             </Link>
           </div>
-          <div className="px-4 py-5 text-center text-[18px] font-medium text-[#6b7280]">
-            {loading ? "Loading..." : orders.length > 0 ? `${orders.length} order found` : "No Order Found"}
+          <div className="min-h-[100px]">
+            {loading ? (
+              <div className="flex h-24 items-center justify-center text-[#6b7280]">Loading...</div>
+            ) : orders.length > 0 ? (
+              <div className="divide-y divide-border">
+                {orders.slice(0, 3).map((order) => (
+                  <OrderItem key={order.id} order={order} />
+                ))}
+              </div>
+            ) : (
+              <div className="flex h-24 items-center justify-center text-[18px] font-medium text-[#6b7280]">
+                No Order Found
+              </div>
+            )}
           </div>
         </section>
 
@@ -266,8 +328,20 @@ export function AccountDashboard({
         <div className="bg-[#333130] px-4 py-3 text-white">
           <h3 className="text-[18px] font-bold">All orders</h3>
         </div>
-        <div className="px-4 py-5 text-center text-[18px] font-medium text-[#6b7280]">
-          {loading ? "Loading..." : orders.length > 0 ? `${orders.length} order found` : "No Order Found"}
+        <div className="min-h-[200px]">
+          {loading ? (
+            <div className="flex h-32 items-center justify-center text-[#6b7280]">Loading...</div>
+          ) : orders.length > 0 ? (
+            <div className="divide-y divide-border">
+              {orders.map((order) => (
+                <OrderItem key={order.id} order={order} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex h-32 items-center justify-center text-[18px] font-medium text-[#6b7280]">
+              No Order Found
+            </div>
+          )}
         </div>
       </section>
     ),

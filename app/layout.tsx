@@ -3,6 +3,7 @@ import { Manrope, Space_Grotesk } from "next/font/google";
 
 import { Footer } from "@/components/layout/footer";
 import { FloatingActions } from "@/components/layout/floating-actions";
+import { MobileNav } from "@/components/layout/mobile-nav";
 import { Navbar } from "@/components/layout/navbar";
 import { AuthProvider } from "@/components/providers/auth-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -51,11 +52,12 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <AuthProvider>
-            <div className="relative flex min-h-screen flex-col">
+            <div className="relative flex min-h-screen flex-col pb-16 md:pb-0">
               <Navbar />
               <main className="flex-1">{children}</main>
               <Footer />
               <FloatingActions />
+              <MobileNav />
             </div>
             <AppToaster />
           </AuthProvider>
