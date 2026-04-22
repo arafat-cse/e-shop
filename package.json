@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "predev": "node -e \"console.log('\\nFrontend: http://localhost:3000\\Backend: http://localhost:1337/admin\\n')\"",
     "dev": "concurrently -n FRONTEND,BACKEND -c blue,green \"npm:frontend:dev\" \"npm:server:dev\"",
     "frontend:dev": "next dev",
     "build": "next build",

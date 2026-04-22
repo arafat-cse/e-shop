@@ -31,14 +31,55 @@
     },
     "category": {
       "type": "string",
+      "pluginOptions": {
+        "content-manager": {
+          "visible": false
+        },
+        "content-type-builder": {
+          "visible": false
+        }
+      }
+    },
+    "productCategory": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "products",
       "required": true
     },
     "image": {
       "type": "text",
-      "required": true
+      "pluginOptions": {
+        "content-manager": {
+          "visible": false
+        },
+        "content-type-builder": {
+          "visible": false
+        }
+      }
+    },
+    "imageFile": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"],
+      "required": false
     },
     "gallery": {
       "type": "json",
+      "required": false,
+      "pluginOptions": {
+        "content-manager": {
+          "visible": false
+        },
+        "content-type-builder": {
+          "visible": false
+        }
+      }
+    },
+    "galleryFiles": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": ["images"],
       "required": false
     },
     "ratingRate": {

@@ -148,6 +148,11 @@ const seedProducts = [
   }
 ];
 
+type SeedCategory = {
+  name: string;
+  sortOrder: number;
+};
+
 export default {
   /**
    * An asynchronous register function that runs before
@@ -165,11 +170,24 @@ export default {
    * run jobs, or perform some special logic.
    */
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
+    const seedCategories = Array.from(new Set(seedProducts.map((product) => product.category))).map(
+      (name, index) =>
+        ({
+          name,
+          sortOrder: index + 1
+        }) satisfies SeedCategory
+    );
+    const categoryMap = await ensureCategories(strapi, seedCategories);
     const existingProducts = await strapi.db.query("api::product.product").count();
 
     if (existingProducts === 0) {
       for (const product of seedProducts) {
-        await strapi.db.query("api::product.product").create({ data: product });
+        await strapi.db.query("api::product.product").create({
+          data: {
+            ...product,
+            productCategory: categoryMap.get(product.category)
+          }
+        });
       }
       return;
     }
@@ -182,6 +200,7 @@ export default {
       await strapi.db.query("api::product.product").update({
         where: { id: product.id },
         data: {
+          productCategory: categoryMap.get(product.category) ?? null,
           compareAtPrice:
             product.compareAtPrice ?? seed?.compareAtPrice ?? Number(product.price),
           stockQuantity: product.stockQuantity ?? seed?.stockQuantity ?? 10
@@ -190,3 +209,25 @@ export default {
     }
   },
 };
+
+async function ensureCategories(strapi: Core.Strapi, seedCategories: SeedCategory[]) {
+  const existingCategories = (await strapi.db.query("api::category.category").findMany({
+    select: ["id", "name"]
+  })) as Array<{ id: number; name: string }>;
+
+  const categoryMap = new Map(existingCategories.map((category) => [category.name, category.id]));
+
+  for (const category of seedCategories) {
+    if (categoryMap.has(category.name)) {
+      continue;
+    }
+
+    const created = await strapi.db.query("api::category.category").create({
+      data: category
+    });
+
+    categoryMap.set(category.name, created.id);
+  }
+
+  return categoryMap;
+}

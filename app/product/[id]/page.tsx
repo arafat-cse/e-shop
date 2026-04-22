@@ -37,13 +37,6 @@ export async function generateMetadata({
   };
 }
 
-const sizeGuide = [
-  ["M", "27", "36"],
-  ["L", "28", "38"],
-  ["XL", "29", "40"],
-  ["XXL", "30", "42"]
-];
-
 export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
   const product = await getProductById(Number(id));
@@ -117,32 +110,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </p>
 
                 <div className="space-y-4 text-[14px]">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="w-16 font-medium">Size:</span>
-                    {["M", "L", "XL", "XXL"].map((size) => (
-                      <button
-                        key={size}
-                        type="button"
-                        className="inline-flex h-9 min-w-11 items-center justify-center rounded-sm border border-border px-3 hover:border-primary hover:text-primary"
-                      >
-                        {size}
-                      </button>
-                    ))}
-                    <button type="button" className="text-sm font-medium text-primary underline underline-offset-2">
-                      Size Guide
-                    </button>
-                  </div>
-
-                  <div className="flex items-center gap-4">
-                    <span className="w-16 font-medium">Quantity:</span>
-                    <div className="flex items-center overflow-hidden rounded-sm border border-border">
-                      <button type="button" className="inline-flex h-9 w-9 items-center justify-center bg-[#f8f8f8] text-lg">
-                        -
-                      </button>
-                      <span className="inline-flex h-9 min-w-10 items-center justify-center text-sm">1</span>
-                      <button type="button" className="inline-flex h-9 w-9 items-center justify-center bg-[#f8f8f8] text-lg">
-                        +
-                      </button>
+                  <div className="grid gap-3 rounded-xl border border-border bg-secondary/30 p-4 text-sm sm:grid-cols-2">
+                    <div>
+                      <p className="text-muted-foreground">Category</p>
+                      <p className="mt-1 font-semibold text-foreground">{product.category}</p>
+                    </div>
+                    <div>
+                      <p className="text-muted-foreground">Stock</p>
+                      <p className="mt-1 font-semibold text-foreground">
+                        {product.stockQuantity > 0 ? `${product.stockQuantity} available` : "Out of stock"}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -190,95 +167,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
 
           <div className="rounded-2xl border border-border bg-white p-4">
-            <div className="mb-4 flex flex-wrap gap-3">
-              <span className="rounded-sm bg-secondary px-4 py-2 text-sm font-semibold text-foreground">Description</span>
-              <span className="rounded-sm bg-secondary px-4 py-2 text-sm font-medium text-foreground">Size Guide</span>
-              <span className="rounded-sm bg-secondary px-4 py-2 text-sm font-medium text-foreground">Customer Reviews (0)</span>
-            </div>
-
-            <div className="space-y-8">
-              <div className="rounded-xl border border-border bg-white p-5">
-                <h2 className="section-title text-[28px] font-bold text-[#111827]">Product Details</h2>
-                <p className="mt-6 text-[14px] text-muted-foreground">{product.title}</p>
-                <div className="mt-5 space-y-4 text-[14px] leading-7 text-muted-foreground">
-                  <p>✅ Fabric: Premium Mash (গ্রীষ্ম-শীতে আরামদায়ক)</p>
-                  <p>✅ GSM: 160</p>
-                  <p>✅ Logo: High-Quality Premium Club Logo</p>
-                  <p>✅ Size: M, L, XL, XXL</p>
-                  <p className="pt-4 text-[13px]">
-                    Note: আপনার ব্যবহৃত ডিসপ্লে বা মনিটরের কারণে ছবির সাথে আসল পণ্যের রঙে সামান্য পার্থক্য হতে পারে।
-                  </p>
-                </div>
-              </div>
-
-              <div className="rounded-xl border border-border bg-white p-5">
-                <h3 className="section-title text-[28px] font-bold text-[#111827]">Size Guide</h3>
-                <div className="mt-6 overflow-hidden rounded-md border border-border">
-                  <table className="w-full text-left text-sm">
-                    <thead className="bg-secondary text-[#111827]">
-                      <tr>
-                        <th className="px-4 py-3">Size</th>
-                        <th className="px-4 py-3">Length</th>
-                        <th className="px-4 py-3">Chest</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {sizeGuide.map(([size, length, chest]) => (
-                        <tr key={size} className="border-t border-border">
-                          <td className="px-4 py-3 font-semibold">{size}</td>
-                          <td className="px-4 py-3">{length}</td>
-                          <td className="px-4 py-3">{chest}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div className="rounded-xl border border-border bg-white p-5">
-                <div className="grid gap-6 lg:grid-cols-[180px_1fr]">
-                  <div>
-                    <p className="text-6xl font-bold text-[#111827]">0.0</p>
-                    <p className="mt-2 text-sm text-muted-foreground">Average Rating</p>
-                    <p className="text-sm text-muted-foreground">(0 Reviews)</p>
-                    <p className="mt-4 text-2xl font-semibold text-[#111827]">0.00%</p>
-                    <p className="text-sm text-muted-foreground">Recommended (1 of 3)</p>
-                    <div className="mt-4 space-y-2">
-                      {[5, 4, 3, 2, 1].map((star) => (
-                        <div key={star} className="flex items-center gap-3">
-                          <span className="w-10 text-sm text-[#f59e0b]">{`${star}★`}</span>
-                          <div className="h-2 flex-1 rounded-full bg-secondary" />
-                          <span className="text-sm text-muted-foreground">0%</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="section-title text-[28px] font-bold text-[#111827]">Submit Your Review</h3>
-                    <p className="mt-4 text-sm text-muted-foreground">
-                      Your email address will not be published. Required fields are marked *
-                    </p>
-                    <div className="mt-4 space-y-4">
-                      <textarea
-                        className="min-h-36 w-full rounded-md border border-border px-4 py-3 outline-none"
-                        placeholder="Write Your Review Here..."
-                      />
-                      <div className="flex flex-col gap-4 sm:flex-row">
-                        <select className="h-11 flex-1 rounded-md border border-border px-4 outline-none">
-                          <option>Select One</option>
-                          <option>5 Stars</option>
-                          <option>4 Stars</option>
-                        </select>
-                        <button
-                          type="button"
-                          className="inline-flex h-11 items-center justify-center rounded-sm bg-[#2e2e2e] px-8 text-sm font-semibold text-white"
-                        >
-                          Submit Review
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            <div className="rounded-xl border border-border bg-white p-5">
+              <h2 className="section-title text-[28px] font-bold text-[#111827]">Product Details</h2>
+              <div className="mt-6 space-y-4 text-[14px] leading-7 text-muted-foreground">
+                <p>{product.description}</p>
               </div>
             </div>
           </div>
