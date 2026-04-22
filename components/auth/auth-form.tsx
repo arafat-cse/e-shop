@@ -14,6 +14,26 @@ type AuthFormProps = {
   mode: "login" | "register";
 };
 
+function FormInput({
+  icon,
+  ...props
+}: React.ComponentProps<typeof Input> & { icon: React.ReactNode }) {
+  return (
+    <div className="relative">
+      <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-primary">
+        {icon}
+      </span>
+      <Input
+        {...props}
+        className="h-12 rounded-md border-border bg-white pl-11 pr-11 text-[15px] shadow-none focus-visible:border-primary focus-visible:ring-0"
+      />
+      {props.type === "password" ? (
+        <Eye className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      ) : null}
+    </div>
+  );
+}
+
 export function AuthForm({ mode }: AuthFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [fullName, setFullName] = useState("");
@@ -29,24 +49,6 @@ export function AuthForm({ mode }: AuthFormProps) {
   const redirectSuffix = searchParams.get("redirect")
     ? `?redirect=${encodeURIComponent(searchParams.get("redirect") ?? "")}`
     : "";
-
-  const FormInput = ({
-    icon,
-    ...props
-  }: React.ComponentProps<typeof Input> & { icon: React.ReactNode }) => (
-    <div className="relative">
-      <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-primary">
-        {icon}
-      </span>
-      <Input
-        {...props}
-        className="h-12 rounded-md border-border bg-white pl-11 pr-11 text-[15px] shadow-none focus-visible:border-primary focus-visible:ring-0"
-      />
-      {props.type === "password" ? (
-        <Eye className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-      ) : null}
-    </div>
-  );
 
   return (
     <div className="container py-12 md:py-16">

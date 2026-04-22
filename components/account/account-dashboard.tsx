@@ -91,6 +91,16 @@ function OrderItem({ order }: { order: Order }) {
     delivered: "bg-emerald-100 text-emerald-700",
     cancelled: "bg-rose-100 text-rose-700"
   };
+  const statusLabels: Record<string, string> = {
+    placed: "Placed",
+    confirmed: "Confirmed",
+    packed: "Packed",
+    hub: "At hub",
+    courier_assigned: "Courier assigned",
+    out_for_delivery: "Out for delivery",
+    delivered: "Delivered",
+    cancelled: "Rejected"
+  };
 
   return (
     <div className="flex flex-col gap-4 border-b border-border p-4 last:border-0 md:flex-row md:items-center md:justify-between">
@@ -103,7 +113,7 @@ function OrderItem({ order }: { order: Order }) {
           <p className="text-[14px] text-muted-foreground">{date}</p>
           <div className="flex flex-wrap gap-2 pt-1">
             <span className={`rounded-full px-3 py-0.5 text-[12px] font-semibold capitalize ${statusColors[order.status] || "bg-gray-100 text-gray-700"}`}>
-              {order.status}
+              {statusLabels[order.status] ?? order.status}
             </span>
             <span className="rounded-full bg-secondary px-3 py-0.5 text-[12px] font-semibold text-muted-foreground">
               {order.paymentMethod.toUpperCase()}
@@ -117,7 +127,7 @@ function OrderItem({ order }: { order: Order }) {
           <p className="text-[13px] text-muted-foreground">{order.itemsSnapshot.length} item(s)</p>
         </div>
         <Link
-          href={`/track?token=${order.trackingToken}`}
+          href={`/track/${order.trackingToken}`}
           className="rounded-lg bg-[#333130] px-4 py-2 text-[14px] font-semibold text-white transition hover:bg-black"
         >
           Track Order

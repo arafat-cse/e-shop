@@ -110,6 +110,11 @@ function buildTrackingToken() {
   return crypto.randomBytes(16).toString("hex");
 }
 
+function buildDocumentId() {
+  const alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
+  return Array.from(crypto.randomBytes(24), (byte) => alphabet[byte % alphabet.length]).join("");
+}
+
 function buildInitialTimeline(): OrderTimelineEntry[] {
   const createdAt = new Date().toISOString();
 
@@ -139,9 +144,9 @@ export async function getOrderForUser(userId: number, trackingToken: string) {
   const [rows] = await getDbPool().query<OrderRow[]>(
     `SELECT *
      FROM orders
-     WHERE customer_user_id = ? AND tracking_token = ?
+     WHERE customer_user_id = ? AND (tracking_token = ? OR tracking_number = ?)
      LIMIT 1`,
-    [userId, trackingToken]
+    [userId, trackingToken, trackingToken]
   );
 
   return rows[0] ? mapOrder(rows[0]) : null;
@@ -151,9 +156,9 @@ export async function getOrderByTrackingToken(trackingToken: string) {
   const [rows] = await getDbPool().query<OrderRow[]>(
     `SELECT *
      FROM orders
-     WHERE tracking_token = ?
+     WHERE tracking_token = ? OR tracking_number = ?
      LIMIT 1`,
-    [trackingToken]
+    [trackingToken, trackingToken]
   );
 
   return rows[0] ? mapOrder(rows[0]) : null;
@@ -217,12 +222,14 @@ export async function createOrderForUser(userId: number, payload: CheckoutPayloa
     }, 0);
     const shippingFee = SHIPPING_FEE;
     const total = subtotal + shippingFee;
+    const documentId = buildDocumentId();
     const trackingNumber = buildTrackingNumber();
     const trackingToken = buildTrackingToken();
     const statusTimeline = buildInitialTimeline();
 
     const [result] = await connection.query<ResultSetHeader>(
       `INSERT INTO orders (
+        document_id,
         tracking_token,
         tracking_number,
         customer_user_id,
@@ -242,10 +249,12 @@ export async function createOrderForUser(userId: number, payload: CheckoutPayloa
         total,
         items_snapshot,
         status_timeline,
+        published_at,
         created_at,
         updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`,
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW(), NOW())`,
       [
+        documentId,
         trackingToken,
         trackingNumber,
         userId,

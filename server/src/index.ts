@@ -153,6 +153,12 @@ type SeedCategory = {
   sortOrder: number;
 };
 
+type LegacyOrderRow = {
+  id: number;
+  document_id: string | null;
+  published_at: string | null;
+};
+
 export default {
   /**
    * An asynchronous register function that runs before
@@ -170,6 +176,8 @@ export default {
    * run jobs, or perform some special logic.
    */
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
+    await backfillLegacyOrders(strapi);
+
     const seedCategories = Array.from(new Set(seedProducts.map((product) => product.category))).map(
       (name, index) =>
         ({
@@ -230,4 +238,32 @@ async function ensureCategories(strapi: Core.Strapi, seedCategories: SeedCategor
   }
 
   return categoryMap;
+}
+
+async function backfillLegacyOrders(strapi: Core.Strapi) {
+  const connection = (strapi.db as { connection: { raw: (sql: string) => Promise<unknown> } }).connection;
+  const [rows] = (await connection.raw(
+    "SELECT id, document_id, published_at FROM orders WHERE document_id IS NULL OR published_at IS NULL"
+  )) as [LegacyOrderRow[]];
+
+  for (const row of rows) {
+    const documentId = row.document_id ?? createDocumentId();
+
+    await connection.raw(`
+      UPDATE orders
+      SET document_id = '${documentId}', published_at = COALESCE(published_at, NOW(6)), updated_at = NOW(6)
+      WHERE id = ${row.id}
+    `);
+  }
+}
+
+function createDocumentId() {
+  const alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+
+  for (let index = 0; index < 24; index += 1) {
+    result += alphabet[Math.floor(Math.random() * alphabet.length)];
+  }
+
+  return result;
 }

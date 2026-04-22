@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 import { TrackingSearchPage } from "@/components/orders/tracking-search-page";
 
@@ -14,5 +15,9 @@ export default async function TrackPage({
 }) {
   const params = await searchParams;
 
-  return <TrackingSearchPage defaultValue={params.token ?? ""} showNotFound />;
+  if (params.token?.trim()) {
+    redirect(`/track/${encodeURIComponent(params.token.trim())}`);
+  }
+
+  return <TrackingSearchPage defaultValue={params.token ?? ""} showNotFound={false} />;
 }

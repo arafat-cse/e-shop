@@ -9,7 +9,7 @@ const statusLabelMap: Record<OrderStatus, string> = {
   courier_assigned: "Courier Assigned",
   out_for_delivery: "Out For Delivery",
   delivered: "Delivered",
-  cancelled: "Cancelled"
+  cancelled: "Rejected"
 };
 
 export function OrderStatusBadge({ status }: { status: OrderStatus }) {

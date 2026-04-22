@@ -28,7 +28,7 @@ const timelineCopy: Record<OrderStatus, { label: string; description: string }> 
   },
   confirmed: {
     label: "Order confirmed",
-    description: "Your order has been confirmed from the backend panel."
+    description: "Your order has been confirmed and is now being prepared."
   },
   packed: {
     label: "Order packed",
@@ -51,8 +51,8 @@ const timelineCopy: Record<OrderStatus, { label: string; description: string }> 
     description: "The order has been marked as delivered."
   },
   cancelled: {
-    label: "Cancelled",
-    description: "The order has been cancelled from the backend."
+    label: "Order rejected",
+    description: "The order was rejected from the backend. Please contact support if needed."
   }
 };
 

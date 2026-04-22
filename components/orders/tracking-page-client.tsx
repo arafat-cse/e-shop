@@ -19,6 +19,7 @@ export function TrackingPageClient({
     typeof window === "undefined"
       ? `/track/${order.trackingToken}`
       : `${window.location.origin}/track/${order.trackingToken}`;
+  const currentStatusMessage = getCurrentStatusMessage(order.status);
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr]">
@@ -50,6 +51,14 @@ export function TrackingPageClient({
             Copy tracking link
           </Button>
           <p className="text-sm text-muted-foreground">{trackingUrl}</p>
+        </div>
+
+        <div className="mt-6 rounded-2xl border border-border/70 bg-secondary/30 p-4 text-sm">
+          <p className="font-semibold text-foreground">Current update</p>
+          <p className="mt-2 text-muted-foreground">{currentStatusMessage}</p>
+          {order.adminNote ? (
+            <p className="mt-3 text-muted-foreground">Admin note: {order.adminNote}</p>
+          ) : null}
         </div>
 
         <div className="mt-8 space-y-4">
@@ -121,4 +130,27 @@ export function TrackingPageClient({
       </div>
     </div>
   );
+}
+
+function getCurrentStatusMessage(status: Order["status"]) {
+  switch (status) {
+    case "placed":
+      return "Your order has been placed and is waiting for backend confirmation.";
+    case "confirmed":
+      return "Your order has been confirmed from the backend panel.";
+    case "packed":
+      return "Your order has been packed and is ready for dispatch.";
+    case "hub":
+      return "Your parcel is now at the hub.";
+    case "courier_assigned":
+      return "A courier has been assigned to your parcel.";
+    case "out_for_delivery":
+      return "Your parcel is out for delivery.";
+    case "delivered":
+      return "Your order has been delivered successfully.";
+    case "cancelled":
+      return "Your order was rejected from the backend.";
+    default:
+      return "Your order status is being updated.";
+  }
 }

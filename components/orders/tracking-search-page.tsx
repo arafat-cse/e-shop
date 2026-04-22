@@ -5,7 +5,7 @@ import { FormEvent, useState } from "react";
 
 export function TrackingSearchPage({
   defaultValue = "",
-  showNotFound = true
+  showNotFound = false
 }: {
   defaultValue?: string;
   showNotFound?: boolean;
@@ -33,6 +33,9 @@ export function TrackingSearchPage({
               <h1 className="text-4xl font-bold text-[#0f172a] md:text-[32px]">
                 Track your order
               </h1>
+              <p className="mt-3 text-sm text-slate-600">
+                Order করার পরে যে tracking number বা tracking link পেয়েছেন, সেটা এখানে দিন।
+              </p>
 
               <form
                 onSubmit={handleSubmit}
@@ -41,7 +44,7 @@ export function TrackingSearchPage({
                 <input
                   value={value}
                   onChange={(event) => setValue(event.target.value)}
-                  placeholder="Input order id"
+                  placeholder="Input tracking number or token"
                   className="h-14 flex-1 px-4 text-lg font-medium outline-none placeholder:text-[#707070]"
                 />
                 <button
