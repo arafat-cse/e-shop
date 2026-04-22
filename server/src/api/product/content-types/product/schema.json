@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "singularName": "product",
+    "pluralName": "products",
+    "displayName": "Product",
+    "description": "Storefront products"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "category": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "type": "text",
+      "required": true
+    },
+    "gallery": {
+      "type": "json",
+      "required": false
+    },
+    "ratingRate": {
+      "type": "decimal",
+      "required": true,
+      "default": 0
+    },
+    "ratingCount": {
+      "type": "integer",
+      "required": true,
+      "default": 0
+    },
+    "featured": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    }
+  }
+}

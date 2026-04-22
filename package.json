@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "predev": "node -e \"console.log('\\nFrontend: http://localhost:3000\\nBackend: http://localhost:1337/admin\\n')\"",
+    "dev": "concurrently -n FRONTEND,BACKEND -c blue,green \"npm:frontend:dev\" \"npm:server:dev\"",
+    "frontend:dev": "next dev",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
@@ -15,6 +17,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.511.0",
+    "mysql2": "^3.15.3",
     "next": "^15.0.0",
     "next-themes": "^0.4.6",
     "react": "^19.0.0",
@@ -28,6 +31,7 @@
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "autoprefixer": "^10.4.20",
+    "concurrently": "^9.2.1",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2"

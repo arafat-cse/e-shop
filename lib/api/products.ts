@@ -1,4 +1,8 @@
-import { API_BASE_URL } from "@/lib/constants";
+import "server-only";
+
+import { RowDataPacket } from "mysql2";
+
+import { getDbPool } from "@/lib/db";
 import { mockProducts } from "@/lib/mock-products";
 import { Product } from "@/lib/types";
 
@@ -12,22 +16,65 @@ function mapProduct(product: Product): Product {
   };
 }
 
-async function fetchJson<T>(path: string): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    next: { revalidate: 300 }
-  });
+type ProductRow = RowDataPacket & {
+  id: number;
+  title: string;
+  price: number | string;
+  description: string;
+  category: string;
+  image: string;
+  gallery: string[] | string | null;
+  rating_rate: number | string;
+  rating_count: number;
+  featured: number | boolean | null;
+};
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${path}`);
+function normalizeGallery(value: ProductRow["gallery"], fallbackImage: string) {
+  if (Array.isArray(value) && value.length > 0) {
+    return value;
   }
 
-  return response.json() as Promise<T>;
+  if (typeof value === "string" && value.length > 0) {
+    try {
+      const parsed = JSON.parse(value) as unknown;
+
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed.filter((item): item is string => typeof item === "string");
+      }
+    } catch {
+      return [fallbackImage, fallbackImage];
+    }
+  }
+
+  return [fallbackImage, fallbackImage];
+}
+
+function mapRowToProduct(row: ProductRow): Product {
+  return mapProduct({
+    id: row.id,
+    title: row.title,
+    price: Number(row.price),
+    description: row.description,
+    category: row.category,
+    image: row.image,
+    gallery: normalizeGallery(row.gallery, row.image),
+    rating: {
+      rate: Number(row.rating_rate),
+      count: Number(row.rating_count)
+    },
+    featured: Boolean(row.featured)
+  });
 }
 
 export async function getProducts(): Promise<Product[]> {
   try {
-    const products = await fetchJson<Product[]>("/products");
-    return products.map(mapProduct);
+    const [rows] = await getDbPool().query<ProductRow[]>(
+      `SELECT id, title, price, description, category, image, gallery, rating_rate, rating_count, featured
+       FROM products
+       ORDER BY id ASC`
+    );
+
+    return rows.map(mapRowToProduct);
   } catch {
     return mockProducts.map(mapProduct);
   }
@@ -35,8 +82,19 @@ export async function getProducts(): Promise<Product[]> {
 
 export async function getProductById(id: number): Promise<Product | null> {
   try {
-    const product = await fetchJson<Product>(`/products/${id}`);
-    return mapProduct(product);
+    const [rows] = await getDbPool().query<ProductRow[]>(
+      `SELECT id, title, price, description, category, image, gallery, rating_rate, rating_count, featured
+       FROM products
+       WHERE id = ?
+       LIMIT 1`,
+      [id]
+    );
+
+    if (rows.length === 0) {
+      return null;
+    }
+
+    return mapRowToProduct(rows[0]);
   } catch {
     return mockProducts.find((product) => product.id === id) ?? null;
   }
@@ -44,8 +102,14 @@ export async function getProductById(id: number): Promise<Product | null> {
 
 export async function getCategories(): Promise<string[]> {
   try {
-    const categories = await fetchJson<string[]>("/products/categories");
-    return categories;
+    const [rows] = await getDbPool().query<RowDataPacket[]>(
+      `SELECT DISTINCT category
+       FROM products
+       WHERE category IS NOT NULL AND category != ''
+       ORDER BY category ASC`
+    );
+
+    return rows.map((row) => String(row.category));
   } catch {
     return Array.from(new Set(mockProducts.map((product) => product.category)));
   }
