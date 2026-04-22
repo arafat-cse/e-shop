@@ -7,16 +7,16 @@ export const metadata: Metadata = {
   description: "Dashboard view for account activity, orders, and cart summary."
 };
 
-export default async function AccountOrdersPage({
+export default async function AccountPage({
   searchParams
 }: {
   searchParams: Promise<{ welcome?: string }>;
 }) {
-  await searchParams;
+  const params = await searchParams;
 
   return (
     <section className="container py-8 md:py-10">
-      <AccountDashboard section="orders" />
+      <AccountDashboard initialShowConfirmation={params.welcome === "1"} section="dashboard" />
     </section>
   );
 }

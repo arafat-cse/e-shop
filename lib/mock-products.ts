@@ -3,147 +3,146 @@ import { Product } from "@/lib/types";
 export const mockProducts: Product[] = [
   {
     id: 101,
-    title: "Aether Wireless Headphones",
-    price: 149.99,
+    title: "Argentina Home Premium Jersey 2026 - Player Version (Imported)",
+    price: 990,
+    compareAtPrice: 1250,
     description:
-      "Immersive over-ear headphones with adaptive noise cancellation, 40-hour battery life, and a premium aluminum finish.",
-    category: "electronics",
-    image:
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
+      "Argentina home player version jersey with breathable imported fabric, premium crest, and slim athletic fit.",
+    category: "International Team Jersey",
+    image: "https://app-area.jersey.com.bd/productImages/VeivV1775566423.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=900&q=80"
+      "https://app-area.jersey.com.bd/productImages/VeivV1775566423.jpg",
+      "https://app-area.jersey.com.bd/productImages/VeivV1775566423.jpg",
+      "https://app-area.jersey.com.bd/productImages/VeivV1775566423.jpg"
     ],
-    rating: { rate: 4.8, count: 342 },
+    rating: { rate: 4.9, count: 128 },
     featured: true,
-    compareAtPrice: 179.99,
-    stockQuantity: 18
+    stockQuantity: 10
   },
   {
     id: 102,
-    title: "Summit Performance Jacket",
-    price: 119.5,
+    title: "Brazil Home Premium Jersey 2025-26 Player Version Imported",
+    price: 990,
+    compareAtPrice: 1250,
     description:
-      "Weather-resistant outerwear with thermal lining, breathable panels, and an urban athletic silhouette.",
-    category: "men's clothing",
-    image:
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80",
+      "Brazil home premium player version with lightweight construction and high-quality crest finish.",
+    category: "International Team Jersey",
+    image: "https://app-area.jersey.com.bd/productImages/WVJhn1776070165.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=80"
+      "https://app-area.jersey.com.bd/productImages/WVJhn1776070165.jpg",
+      "https://app-area.jersey.com.bd/productImages/WVJhn1776070165.jpg",
+      "https://app-area.jersey.com.bd/productImages/WVJhn1776070165.jpg"
     ],
-    rating: { rate: 4.6, count: 188 },
+    rating: { rate: 4.8, count: 94 },
     featured: true,
-    compareAtPrice: 149.5,
-    stockQuantity: 24
+    stockQuantity: 0
   },
   {
     id: 103,
-    title: "Halo Skin Serum",
-    price: 38.0,
+    title: "Brazil Away Premium Jersey 2025-26 Player Version (Imported)",
+    price: 990,
+    compareAtPrice: 1230,
     description:
-      "Brightening vitamin serum with hyaluronic acid, designed for daily hydration and a smooth finish.",
-    category: "beauty",
-    image:
-      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=80",
+      "Brazil away premium jersey made from recycled polyester with player version slim fit and soft touch finish.",
+    category: "International Team Jersey",
+    image: "https://app-area.jersey.com.bd/productImages/S0MTU1775643933.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=900&q=80"
+      "https://app-area.jersey.com.bd/productImages/S0MTU1775643933.jpg",
+      "https://app-area.jersey.com.bd/productImages/1775643934OZPgE.jpg",
+      "https://app-area.jersey.com.bd/productImages/S0MTU1775643933.jpg"
     ],
-    rating: { rate: 4.7, count: 271 },
+    rating: { rate: 4.8, count: 76 },
     featured: true,
-    compareAtPrice: 45,
-    stockQuantity: 36
+    stockQuantity: 0
   },
   {
     id: 104,
-    title: "Luna Ceramic Lamp",
-    price: 84.0,
+    title: "Argentina Away Premium Jersey 2025-26 Player Version (Imported)",
+    price: 990,
+    compareAtPrice: 1250,
     description:
-      "Textured ceramic table lamp with warm ambient glow, linen shade, and a sculptural silhouette for modern interiors.",
-    category: "home decor",
-    image:
-      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80",
+      "Away kit for Argentina fans featuring premium club-grade logo work, modern cut, and match-ready comfort.",
+    category: "International Team Jersey",
+    image: "https://app-area.jersey.com.bd/productImages/hzVW11775644536.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80"
+      "https://app-area.jersey.com.bd/productImages/hzVW11775644536.jpg",
+      "https://app-area.jersey.com.bd/productImages/hzVW11775644536.jpg",
+      "https://app-area.jersey.com.bd/productImages/hzVW11775644536.jpg"
     ],
-    rating: { rate: 4.5, count: 94 },
-    featured: false,
-    compareAtPrice: 99,
-    stockQuantity: 12
+    rating: { rate: 4.7, count: 66 },
+    featured: true,
+    stockQuantity: 0
   },
   {
     id: 105,
-    title: "Strata Smartwatch",
-    price: 199.99,
+    title: "Spain Away Premium Jersey 2025-26 Player Version (Imported)",
+    price: 990,
+    compareAtPrice: 1250,
     description:
-      "AMOLED smartwatch with health tracking, Bluetooth calling, GPS workout modes, and interchangeable straps.",
-    category: "electronics",
-    image:
-      "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=900&q=80",
+      "Spain away premium jersey with imported player fit, lightweight body fabric, and elevated detailing.",
+    category: "International Team Jersey",
+    image: "https://app-area.jersey.com.bd/productImages/2Nn8t1775647208.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?auto=format&fit=crop&w=900&q=80"
+      "https://app-area.jersey.com.bd/productImages/2Nn8t1775647208.jpg",
+      "https://app-area.jersey.com.bd/productImages/2Nn8t1775647208.jpg",
+      "https://app-area.jersey.com.bd/productImages/2Nn8t1775647208.jpg"
     ],
-    rating: { rate: 4.9, count: 521 },
+    rating: { rate: 4.6, count: 53 },
     featured: true,
-    compareAtPrice: 229.99,
-    stockQuantity: 15
+    stockQuantity: 0
   },
   {
     id: 106,
-    title: "Vale Leather Tote",
-    price: 132.75,
+    title: "AC Milan Fan Edition Full Sleeve Club Jersey (Red & White Color)",
+    price: 350,
+    compareAtPrice: 500,
     description:
-      "Structured everyday tote in smooth leather with a padded laptop sleeve and refined hardware details.",
-    category: "women's clothing",
-    image:
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=80",
+      "Full sleeve AC Milan fan edition jersey with soft breathable fabric and comfortable everyday fit.",
+    category: "Football Club Jersey",
+    image: "https://app-area.jersey.com.bd/productImages/lhQLz1775622448.png",
     gallery: [
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=900&q=80"
+      "https://app-area.jersey.com.bd/productImages/lhQLz1775622448.png",
+      "https://app-area.jersey.com.bd/productImages/lhQLz1775622448.png",
+      "https://app-area.jersey.com.bd/productImages/lhQLz1775622448.png"
     ],
-    rating: { rate: 4.4, count: 116 },
+    rating: { rate: 4.7, count: 88 },
     featured: false,
-    compareAtPrice: 159.75,
-    stockQuantity: 9
-  },
-  {
-    id: 107,
-    title: "Crest Coffee Maker",
-    price: 89.2,
-    description:
-      "Compact brewer with programmable timer, thermal carafe, and precision extraction for rich morning coffee.",
-    category: "home appliances",
-    image:
-      "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?auto=format&fit=crop&w=900&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80"
-    ],
-    rating: { rate: 4.3, count: 76 },
-    featured: false,
-    compareAtPrice: 99.2,
     stockQuantity: 11
   },
   {
-    id: 108,
-    title: "Orbit Gaming Mouse",
-    price: 59.0,
+    id: 107,
+    title: "Real Madrid Special Edition Half Sleeve Teal & White Color Jersey",
+    price: 300,
+    compareAtPrice: 500,
     description:
-      "Ergonomic gaming mouse with custom DPI profiles, lightweight frame, and responsive tactile switches.",
-    category: "electronics",
-    image:
-      "https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=900&q=80",
+      "Half sleeve special edition Real Madrid club jersey with fan edition cut and all-day comfort.",
+    category: "Football Club Jersey",
+    image: "https://app-area.jersey.com.bd/productImages/orVp21775647386.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1613141412501-9012977f1969?auto=format&fit=crop&w=900&q=80"
+      "https://app-area.jersey.com.bd/productImages/orVp21775647386.jpg",
+      "https://app-area.jersey.com.bd/productImages/orVp21775647386.jpg",
+      "https://app-area.jersey.com.bd/productImages/orVp21775647386.jpg"
     ],
-    rating: { rate: 4.6, count: 203 },
+    rating: { rate: 4.5, count: 41 },
     featured: false,
-    compareAtPrice: 69,
-    stockQuantity: 20
+    stockQuantity: 8
+  },
+  {
+    id: 108,
+    title: "3-Piece Premium Club Jersey Combo 04",
+    price: 990,
+    compareAtPrice: 1200,
+    description:
+      "Three-piece premium club combo for fans looking for better value with imported quality fabric.",
+    category: "Combo",
+    image: "https://app-area.jersey.com.bd/productImages/P0ajy1775648947.jpg",
+    gallery: [
+      "https://app-area.jersey.com.bd/productImages/P0ajy1775648947.jpg",
+      "https://app-area.jersey.com.bd/productImages/P0ajy1775648947.jpg",
+      "https://app-area.jersey.com.bd/productImages/P0ajy1775648947.jpg"
+    ],
+    rating: { rate: 4.7, count: 62 },
+    featured: false,
+    stockQuantity: 6
   }
 ];

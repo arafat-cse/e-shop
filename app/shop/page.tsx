@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { ProductGrid } from "@/components/product/product-grid";
 import { SearchFilters } from "@/components/product/search-filters";
-import { Badge } from "@/components/ui/badge";
 import { getCategories, getProducts } from "@/lib/api/products";
 
 type ShopPageProps = {
@@ -38,19 +38,16 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   });
 
   return (
-    <section className="container py-10 md:py-14">
-      <div className="mb-8 space-y-3">
-        <Badge>Marketplace</Badge>
-        <h1 className="font-[family-name:var(--font-heading)] text-4xl font-bold">
-          Shop all products
-        </h1>
-        <p className="max-w-2xl text-muted-foreground">
-          Search by keyword, refine by category, and explore a responsive
-          product grid powered by a dedicated service layer.
-        </p>
+    <section className="container py-8 md:py-10">
+      <div className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
+        <Link href="/" className="hover:text-primary">
+          Home
+        </Link>
+        <span>›</span>
+        <span>Shop</span>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[300px_1fr]">
+      <div className="grid gap-6 lg:grid-cols-[220px_1fr]">
         <SearchFilters
           categories={categories}
           initialQuery={params.q ?? ""}
@@ -58,14 +55,24 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         />
 
         <div>
-          <p className="mb-5 text-sm text-muted-foreground">
-            Showing {filteredProducts.length} product
-            {filteredProducts.length === 1 ? "" : "s"}
-          </p>
+          <div className="mb-6 rounded-md border border-border bg-white p-4">
+            <div className="flex flex-wrap items-center gap-3 text-sm">
+              <span className="font-semibold text-foreground">Sort By :</span>
+              <select className="h-10 rounded-sm border border-border bg-white px-3 outline-none">
+                <option>Default Sorting</option>
+                <option>Price low to high</option>
+                <option>Price high to low</option>
+                <option>Newest</option>
+              </select>
+              <p className="ml-auto text-sm text-muted-foreground">
+                Showing {filteredProducts.length} product{filteredProducts.length === 1 ? "" : "s"}
+              </p>
+            </div>
+          </div>
           {filteredProducts.length > 0 ? (
-            <ProductGrid products={filteredProducts} />
+            <ProductGrid products={filteredProducts} className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4" />
           ) : (
-            <div className="rounded-[2rem] border border-dashed border-border p-10 text-center">
+            <div className="rounded-md border border-dashed border-border bg-white p-10 text-center">
               <h2 className="font-[family-name:var(--font-heading)] text-2xl font-bold">
                 No products found
               </h2>

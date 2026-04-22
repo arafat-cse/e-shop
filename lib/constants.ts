@@ -1,6 +1,6 @@
-export const APP_NAME = "e-shop";
+export const APP_NAME = "JERSEY";
 export const APP_DESCRIPTION =
-  "A Bangladesh-ready eCommerce storefront with Next.js, Strapi, MySQL, account login, orders, and tracking.";
+  "Bangladesh-ready football jersey storefront inspired by Jersey.com.bd with backend-controlled products, orders, and authentication.";
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_STRAPI_URL ?? "http://127.0.0.1:1337/api";
 export const STRAPI_BASE_URL =

@@ -12,11 +12,13 @@ import { useCartStore } from "@/store/use-cart-store";
 type AddToCartButtonProps = {
   product: Product;
   fullWidth?: boolean;
+  quantity?: number;
 };
 
 export function AddToCartButton({
   product,
-  fullWidth = false
+  fullWidth = false,
+  quantity = 1
 }: AddToCartButtonProps) {
   const addItem = useCartStore((state) => state.addItem);
   const user = useAuthStore((state) => state.user);
@@ -37,10 +39,11 @@ export function AddToCartButton({
           return;
         }
 
-        addItem(product);
+        Array.from({ length: quantity }).forEach(() => addItem(product));
         toast.success(`${product.title} added to cart`);
       }}
       disabled={product.stockQuantity <= 0}
+      variant="default"
     >
       <ShoppingCart className="h-4 w-4" />
       {product.stockQuantity <= 0 ? "Out of stock" : "Add to cart"}
